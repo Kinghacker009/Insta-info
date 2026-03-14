@@ -1,0 +1,35 @@
+import requests
+import json
+
+def get_user_info(username):
+    url = f"https://www.instagram.com/api/v1/users/web_profile_info/?username={username}"
+
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "x-ig-app-id": "936619743392459"
+    }
+
+    try:
+        r = requests.get(url, headers=headers)
+        data = r.json()
+
+        user = data["data"]["user"]
+
+        print("\n===== Instagram User Information =====\n")
+
+        print("Username:", user["username"])
+        print("Full Name:", user["full_name"])
+        print("Bio:", user["biography"])
+        print("Followers:", user["edge_followed_by"]["count"])
+        print("Following:", user["edge_follow"]["count"])
+        print("Posts:", user["edge_owner_to_timeline_media"]["count"])
+        print("Private:", user["is_private"])
+        print("Verified:", user["is_verified"])
+        print("Profile Pic:", user["profile_pic_url_hd"])
+        print("External URL:", user["external_url"])
+
+    except:
+        print("Error fetching data")
+
+username = input("Enter Instagram Username: ")
+get_user_info(username)
